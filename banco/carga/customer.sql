@@ -1,0 +1,10 @@
+insert into customer (name, email) values("Bia", "bia@email.com.br");
+insert into customer (name, email) values("Leo", "leo@email.com.br");
+insert into customer (name, email) values("Bob", "bob@email.com.br");
+insert into customer (name, email) values("Caio", "caio@email.com.br");
+insert into customer (name, email) values("Luiz", "luiz@email.com.br");
+insert into customer (name, email) values("Téo", "teo@email.com.br");
+insert into customer (name, email) values("Jô", "jo@email.com.br");
+insert into customer (name, email) values("abel", "abel@email.com.br");
+insert into customer (name, email) values("Iza", "iza@email.com.br");
+insert into customer (name, email) values("Vini", "vini@email.com.br");
