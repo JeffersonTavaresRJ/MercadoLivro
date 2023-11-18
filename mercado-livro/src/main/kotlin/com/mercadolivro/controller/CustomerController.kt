@@ -28,7 +28,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id:String): CustomerModel{
+    fun getCustomer(@PathVariable id:Int): CustomerModel{
         return customerService.getById(id);
     }
 
@@ -48,7 +48,7 @@ class CustomerController(
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable id:String){
+    fun deleteCustomer(@PathVariable id:Int){
         customerService.delete(id);
     }
 

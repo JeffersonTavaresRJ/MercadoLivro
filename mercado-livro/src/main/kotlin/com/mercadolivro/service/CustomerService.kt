@@ -1,47 +1,42 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.model.CustomerModel
+import com.mercadolivro.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
 /*
-a anotation @Service sobre a classe serve para fazer injeção de dependência
+ anotation @Service sobre a classe serve para fazer injeção de dependência
 */
 @Service
-class CustomerService {
-
-    val customers = mutableListOf<CustomerModel>();
-
+class CustomerService(
+    val customerRepository: CustomerRepository
+) {
     fun getAll(name: String?):List<CustomerModel>{
-        //se a variável não for nula, executa o bloco de código entre as chaves..
         name?.let {
-            return customers.filter { it.name.contains(name, true) }
+            return customerRepository.findByNameContaining(it);
         }
-        return customers;
+        return customerRepository.findAll().toList();
     }
 
-    fun getById(id:String): CustomerModel{
-        return customers.filter{ it.id==id.toInt() }.first();
+    fun getById(id:Int): CustomerModel{
+        return customerRepository.findById(id).orElseThrow();
     }
 
     fun create(customer: CustomerModel){
-
-        customer.id= if(customers.isEmpty()){
-            1
-        }else{
-            customers.last().id?.plus(1)
-        }
-        customers.add(element = customer);
+        customerRepository.save(customer);
     }
 
     fun put(customer: CustomerModel){
-        //"let": bloco de código a ser executado após dentro das chaves..
-        customers.filter {it.id==customer.id}.first().let {
-            it.name = customer.name
-            it.email= customer.email
+        if(!customerRepository.existsById(customer.id!!)){
+            throw Exception();
         }
+        customerRepository.save(customer);
     }
 
-    fun delete(id:String){
-        customers.removeIf { it.id==id.toInt() };
+    fun delete(id:Int){
+        if(!customerRepository.existsById(id)){
+            throw Exception();
+        }
+        customerRepository.deleteById(id);
     }
 }

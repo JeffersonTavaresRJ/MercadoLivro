@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/curso
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+flyway:
+  url: jdbc:mysql://localhost:3306/mysql
+  schemas: curso
+  user: "root"
+  password: "root"
