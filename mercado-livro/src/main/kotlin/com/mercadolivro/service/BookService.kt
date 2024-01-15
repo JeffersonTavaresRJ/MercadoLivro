@@ -48,4 +48,20 @@ class BookService(
         book.status = BookStatus.DELETADO;
         bookRepository.save(book);
     }
+
+    fun deleteByCustomer(customer: CustomerModel):Int {
+        return statusByCustomer(customer, BookStatus.DELETADO);
+    }
+
+    fun cancelByCustomer(customer: CustomerModel):Int {
+        return statusByCustomer(customer, BookStatus.CANCELADO);
+    }
+
+    private fun statusByCustomer(customer: CustomerModel, status: BookStatus): Int{
+        val books = bookRepository.findByCustomer(customer);
+        for(book in books){
+            book.status = status
+        }
+        return bookRepository.saveAll(books).count();
+    }
 }

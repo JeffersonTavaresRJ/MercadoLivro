@@ -42,8 +42,15 @@ class CustomerController(
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun putCustomer(@PathVariable id:String, @RequestBody customer: PutCustomerRequest){
+        val customerSaved = customerService.getById(id.toInt());
         //aplicando extension function: toCustomerModel..
-        customerService.put(customer.toCustomerModel(id.toInt()));
+        customerService.put(customer.toCustomerModel(customerSaved));
+    }
+
+    @PutMapping("inactivate/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun inactivateCustomer(@PathVariable id: String){
+        customerService.inactivate(id.toInt());
     }
 
     @DeleteMapping("/{id}")
