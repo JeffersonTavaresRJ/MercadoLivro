@@ -2,11 +2,14 @@ package com.mercadolivro.controller
 
 import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.controller.request.PutBookRequest
+import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toBookModel
-import com.mercadolivro.extension.toCustomerModel
-import com.mercadolivro.model.BookModel
+import com.mercadolivro.extension.toResponse
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -25,19 +27,24 @@ class BookController(
     val customerService: CustomerService,
     val bookService: BookService
 ) {
+
     @GetMapping
-    fun getAll(@RequestParam name: String?):List<BookModel>{
-        return bookService.findAll(name);
+    fun getAll(@PageableDefault(page=0, size=10) pageable: Pageable): Page<BookResponse> {
+        return bookService.findAll(pageable).map { it.toResponse() };
     }
 
     @GetMapping("/actives")
-    fun getActives():List<BookModel>{
-        return bookService.findActives();
+    fun getActives(@PageableDefault(size=10, page = 0) pageable: Pageable):Page<BookResponse>{
+        return bookService.findActives(pageable).map { it.toResponse() };
     }
 
     @GetMapping("/{id}")
-    fun getBook(@PathVariable id:Int): BookModel{
-        return bookService.findById(id);
+    fun getBook(@PathVariable id:Int): BookResponse{
+        return bookService.findById(id).toResponse();
+    }
+    @GetMapping("/{name}")
+    fun getContainName(@PathVariable name: String):List<BookResponse>{
+        return bookService.findByNameContaining(name).map { it.toResponse() };
     }
 
     @PostMapping

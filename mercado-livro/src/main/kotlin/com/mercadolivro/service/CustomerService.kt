@@ -3,6 +3,8 @@ package com.mercadolivro.service
 import com.mercadolivro.enuns.CustomerStatus
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 /*
@@ -13,11 +15,8 @@ class CustomerService(
     val customerRepository: CustomerRepository,
     val bookService: BookService
 ) {
-    fun getAll(name: String?):List<CustomerModel>{
-        name?.let {
-            return customerRepository.findByNameContaining(it);
-        }
-        return customerRepository.findAll().toList();
+    fun getAll(pageable: Pageable): Page<CustomerModel> {
+        return customerRepository.findAll(pageable);
     }
 
     fun getById(id:Int): CustomerModel{
@@ -69,5 +68,9 @@ class CustomerService(
 
         bookService.cancelByCustomer(customer);
 
+    }
+
+    fun findByNameContaining(name: String): List<CustomerModel> {
+        return customerRepository.findByNameContaining(name).toList()
     }
 }
