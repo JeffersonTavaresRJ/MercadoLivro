@@ -42,7 +42,7 @@ class BookController(
     fun getBook(@PathVariable id:Int): BookResponse{
         return bookService.findById(id).toResponse();
     }
-    @GetMapping("/{name}")
+    @GetMapping("/name-contain/{name}")
     fun getContainName(@PathVariable name: String):List<BookResponse>{
         return bookService.findByNameContaining(name).map { it.toResponse() };
     }

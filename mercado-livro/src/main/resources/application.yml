@@ -7,6 +7,8 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null
 flyway:
   url: jdbc:mysql://localhost:3306/mysql
   schemas: curso

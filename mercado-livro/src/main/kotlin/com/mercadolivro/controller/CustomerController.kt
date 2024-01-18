@@ -37,7 +37,7 @@ class CustomerController(
         return customerService.getById(id).toResponse();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name-contain/{name}")
     fun getCustomer(@PathVariable name:String): List<CustomerResponse>{
         return customerService.findByNameContaining(name).map{it.toResponse()};
     }
@@ -57,7 +57,7 @@ class CustomerController(
         customerService.put(customer.toCustomerModel(customerSaved));
     }
 
-    @PutMapping("inactivate/{id}")
+    @PutMapping("/inactivate/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun inactivateCustomer(@PathVariable id: String){
         customerService.inactivate(id.toInt());
