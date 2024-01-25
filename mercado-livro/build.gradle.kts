@@ -20,14 +20,16 @@ repositories {
 }
 
 dependencies {
+	/*spring validation: biblioteca para validação dos dados..*/
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	/*bibiotecas para conexão com o banco de dados..*/
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	implementation("org.flywaydb:flyway-mysql:8.2.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-
 }
 
 tasks.withType<KotlinCompile> {

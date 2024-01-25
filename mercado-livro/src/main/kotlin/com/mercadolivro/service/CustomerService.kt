@@ -75,4 +75,8 @@ class CustomerService(
     fun findByNameContaining(name: String): List<CustomerModel> {
         return customerRepository.findByNameContaining(name).toList()
     }
+
+    fun emailAvailable(email: String): Boolean {
+        return !customerRepository.existsByEmail(email);
+    }
 }

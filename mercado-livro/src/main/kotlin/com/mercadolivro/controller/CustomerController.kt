@@ -5,8 +5,8 @@ import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.extension.toResponse
-import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.service.CustomerService
+import jakarta.validation.Valid
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -44,14 +43,14 @@ class CustomerController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: PostCustomerRequest){
+    fun create(@RequestBody @Valid customer: PostCustomerRequest){
         //aplicando extension function: toCustomerModel..
         customerService.create(customer.toCustomerModel());
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun putCustomer(@PathVariable id:String, @RequestBody customer: PutCustomerRequest){
+    fun putCustomer(@PathVariable id:String, @RequestBody @Valid customer: PutCustomerRequest){
         val customerSaved = customerService.getById(id.toInt());
         //aplicando extension function: toCustomerModel..
         customerService.put(customer.toCustomerModel(customerSaved));
