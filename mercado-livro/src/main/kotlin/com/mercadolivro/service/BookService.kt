@@ -67,4 +67,8 @@ class BookService(
         }
         return bookRepository.saveAll(books).count();
     }
+
+    fun getByIds(bookIds: Set<Int>): List<BookModel> {
+        return bookRepository.findAllById(bookIds);
+    }
 }

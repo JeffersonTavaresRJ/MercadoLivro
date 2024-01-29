@@ -29,6 +29,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	implementation("org.flywaydb:flyway-mysql:8.2.1")
+	/*swagger*/
+
+	//implementation("io.springfox:springfox-swagger2:2.9.2")
+	//implementation("io.springfox:springfox-swagger-ui:2.9.2")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
