@@ -11,8 +11,12 @@ class PurchaseService(val purchaseRepository: PurchaseRepository,
                       val applicationEventPublisher: ApplicationEventPublisher) {
     fun create(purchaseModel: PurchaseModel){
         purchaseRepository.save(purchaseModel);
-
+        /*chama os listeners que tem como parâmetro o PurchaseEvent..*/
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchaseModel));
 
+    }
+
+    fun update(purchaseModel: PurchaseModel) {
+        purchaseRepository.save((purchaseModel));
     }
 }

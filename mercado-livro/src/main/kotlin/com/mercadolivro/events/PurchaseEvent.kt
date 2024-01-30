@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationEvent
 
 class PurchaseEvent(
     source: Any,/*quem está chamado o evento..*/
-    purchaseModel: PurchaseModel
+    val purchaseModel: PurchaseModel
 ): ApplicationEvent(source) {
 
 }
