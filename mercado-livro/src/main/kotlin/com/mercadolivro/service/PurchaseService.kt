@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service
 class PurchaseService(val purchaseRepository: PurchaseRepository,
                       val applicationEventPublisher: ApplicationEventPublisher) {
     fun create(purchaseModel: PurchaseModel){
+        println("Iniciando a venda");
         purchaseRepository.save(purchaseModel);
         /*chama os listeners que tem como parâmetro o PurchaseEvent..*/
+
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchaseModel));
+        println("Finalizando a venda");
 
     }
 

@@ -14,12 +14,6 @@ data class PurchaseModel (
     @JoinColumn(name="customer_id")
     val customer: CustomerModel,
 
-    @ManyToMany
-    @JoinTable(name="purchase_book",
-               joinColumns = [JoinColumn(name = "purchase_id")],
-               inverseJoinColumns = [JoinColumn(name = "book_id")])
-    val books: MutableList<BookModel>,
-
     @Column
     val nfe: String?=null,
 
@@ -27,6 +21,12 @@ data class PurchaseModel (
     val price: BigDecimal,
 
     @Column(name = "created_at")
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @ManyToMany
+    @JoinTable(name="purchase_book",
+        joinColumns = [JoinColumn(name = "purchase_id")],
+        inverseJoinColumns = [JoinColumn(name = "book_id")])
+    val books: MutableList<BookModel>
 
 )
