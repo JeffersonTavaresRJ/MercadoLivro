@@ -7,8 +7,8 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
-class PurchaseService(val purchaseRepository: PurchaseRepository,
-                      val applicationEventPublisher: ApplicationEventPublisher) {
+class PurchaseService(private val purchaseRepository: PurchaseRepository,
+                      private val applicationEventPublisher: ApplicationEventPublisher) {
     fun create(purchaseModel: PurchaseModel){
         println("Iniciando a venda");
         purchaseRepository.save(purchaseModel);

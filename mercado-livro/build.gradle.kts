@@ -35,6 +35,9 @@ dependencies {
 	//implementation("io.springfox:springfox-swagger-ui:2.9.2")
 	implementation("io.springfox:springfox-boot-starter:3.0.0")
 
+	/*spring boot security JWT*/
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

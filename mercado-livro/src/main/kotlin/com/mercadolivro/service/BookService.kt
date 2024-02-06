@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 */
 @Service
 class BookService(
-    val bookRepository: BookRepository
+    private val bookRepository: BookRepository
 ) {
     fun findAll(pageable: org.springframework.data.domain.Pageable):Page<BookModel>{
         return bookRepository.findAll(pageable);
