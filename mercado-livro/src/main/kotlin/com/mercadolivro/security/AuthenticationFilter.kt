@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import com.mercadolivro.exception.AuthenticationException
+import jakarta.servlet.FilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 class AuthenticationFilter(
@@ -31,5 +32,15 @@ class AuthenticationFilter(
         }
 
 
+    }
+
+    override fun successfulAuthentication(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        chain: FilterChain,
+        authResult: Authentication
+    ) {
+        val id = (authResult.principal as UserCustomDetails).id;
+        response.addHeader("Authorization", "123456");
     }
 }

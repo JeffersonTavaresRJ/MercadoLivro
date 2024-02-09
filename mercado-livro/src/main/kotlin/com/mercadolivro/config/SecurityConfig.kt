@@ -2,10 +2,12 @@ package com.mercadolivro.config
 
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
+import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -13,10 +15,13 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
+
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(private val customerRepository: CustomerRepository,
-                     private val authenticationConfiguration: AuthenticationConfiguration) {
+                     private val authenticationConfiguration: AuthenticationConfiguration,
+                     private val userDetailsCustomService: UserDetailsCustomService
+) {
     private val PUBLIC_POST_MATCHERS = arrayOf("/customer");
 
     @Bean
@@ -24,13 +29,19 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
         http.cors { it.disable() }.csrf{it.disable()}
         http.authorizeRequests{
             it.requestMatchers(*PUBLIC_POST_MATCHERS).permitAll()
-            .anyRequest().authenticated()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .authenticationProvider(authenticationProvider());
         }
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository));
         http.sessionManagement{it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)};
 
-        return http.build()
+
+        val securityFilterChain = http.build();
+        return securityFilterChain;
     }
+
 
     @Bean
     @Throws(Exception::class)
@@ -38,9 +49,17 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
         return authenticationConfiguration.authenticationManager;
     }
 
-
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder{
         return BCryptPasswordEncoder();
     }
+
+    @Bean
+    fun authenticationProvider(): AuthenticationProvider {
+        val authenticationProvider = DaoAuthenticationProvider()
+        authenticationProvider.setUserDetailsService(userDetailsCustomService)
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder())
+        return authenticationProvider
+    }
+
 }
