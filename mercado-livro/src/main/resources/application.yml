@@ -14,3 +14,6 @@ flyway:
   schemas: curso
   user: "root"
   password: "root"
+jwt:
+  secret: 79f15f3c-573e-4a0d-97e1-421cd7ff59cc
+  expiration: 3600
