@@ -38,7 +38,11 @@ dependencies {
 	/*spring boot security JWT*/
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	// https://mvnrepository.com/artifact/com.auth0/java-jwt
-	implementation("com.auth0:java-jwt:2.0.1")
+	//implementation("com.auth0:java-jwt:2.0.1")
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	implementation("io.jsonwebtoken:jjwt:0.12.5")
+
+
 
 
 

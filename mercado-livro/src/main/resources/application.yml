@@ -16,4 +16,5 @@ flyway:
   password: "root"
 jwt:
   secret: 79f15f3c-573e-4a0d-97e1-421cd7ff59cc
-  expiration: 3600
+  expiration: 3600000
+  algorithm: HmacSHA256
