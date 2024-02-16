@@ -7,6 +7,7 @@ import com.mercadolivro.security.JwtUtil
 import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -31,7 +32,7 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
     fun filterChain(http: HttpSecurity): SecurityFilterChain{
         http.cors { it.disable() }.csrf{it.disable()}
         http.authorizeRequests{
-            it.requestMatchers(*PUBLIC_POST_MATCHERS).permitAll()
+            it.requestMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
             .anyRequest()
             .authenticated()
             .and()
