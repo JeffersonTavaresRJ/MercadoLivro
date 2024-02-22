@@ -1,5 +1,6 @@
 package com.mercadolivro.config
 
+import com.mercadolivro.enuns.Role
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
 import com.mercadolivro.security.AuthorizationFilter
@@ -27,12 +28,14 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
                      private val jwtUtil: JwtUtil
 ) {
     private val PUBLIC_POST_MATCHERS = arrayOf("/customer");
+    private val ADMIN_MATCHERS = arrayOf("/admin/**")
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain{
         http.cors { it.disable() }.csrf{it.disable()}
         http.authorizeRequests{
             it.requestMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
+                .requestMatchers(*ADMIN_MATCHERS).hasAuthority(Role.ADMIN.description)
             .anyRequest()
             .authenticated()
             .and()
