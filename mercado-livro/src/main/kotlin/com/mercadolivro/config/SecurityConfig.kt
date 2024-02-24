@@ -4,6 +4,7 @@ import com.mercadolivro.enuns.Role
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.security.AuthenticationFilter
 import com.mercadolivro.security.AuthorizationFilter
+import com.mercadolivro.security.CustomAuthenticationEntryPoint
 import com.mercadolivro.security.JwtUtil
 import com.mercadolivro.service.UserDetailsCustomService
 import org.springframework.context.annotation.Bean
@@ -29,7 +30,8 @@ import org.springframework.security.web.SecurityFilterChain
 class SecurityConfig(private val customerRepository: CustomerRepository,
                      private val authenticationConfiguration: AuthenticationConfiguration,
                      private val userDetailsCustomService: UserDetailsCustomService,
-                     private val jwtUtil: JwtUtil
+                     private val jwtUtil: JwtUtil,
+                     private val customEntryPoint: CustomAuthenticationEntryPoint
 ) {
     private val PUBLIC_POST_MATCHERS = arrayOf("/customer");
     private val PUBLIC_ALL_MATCHERS = arrayOf("/v3/api-docs/**","/swagger-ui/**", "/javainuse-openapi/**");
@@ -49,7 +51,8 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
         }
         http.addFilter(AuthenticationFilter(authenticationManager(), customerRepository, jwtUtil));
         http.addFilter(AuthorizationFilter(authenticationManager(), userDetailsCustomService, jwtUtil));
-        http.sessionManagement{it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)};
+        http.sessionManagement{it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)}
+        http.exceptionHandling { it.authenticationEntryPoint(customEntryPoint)  };
 
         val securityFilterChain = http.build();
         return securityFilterChain;
