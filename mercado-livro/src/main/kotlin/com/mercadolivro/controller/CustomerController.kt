@@ -5,6 +5,7 @@ import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.extension.toResponse
+import com.mercadolivro.security.RestrictResourcesUser
 import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -32,6 +33,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
+    @RestrictResourcesUser
     fun getCustomer(@PathVariable id:Int): CustomerResponse{
         return customerService.getById(id).toResponse();
     }
