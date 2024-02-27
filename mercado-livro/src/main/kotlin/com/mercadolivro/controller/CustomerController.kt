@@ -3,7 +3,9 @@ package com.mercadolivro.controller
 import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
+import com.mercadolivro.controller.response.PageResponse
 import com.mercadolivro.extension.toCustomerModel
+import com.mercadolivro.extension.toPageResponse
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.security.RestrictResourcesUser
 import com.mercadolivro.service.CustomerService
@@ -25,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("customer")
 class CustomerController(
-    val customerService: CustomerService
+    private val customerService: CustomerService
 ) {
     @GetMapping
-    fun getAll(@PageableDefault(page=0, size=10) pageable: Pageable):Page<CustomerResponse>{
-        return customerService.getAll(pageable).map { it.toResponse() };
+    fun getAll(@PageableDefault(page=0, size=10) pageable: Pageable): PageResponse<CustomerResponse> {
+        return customerService.getAll(pageable).map { it.toResponse() }.toPageResponse();
     }
 
     @GetMapping("/{id}")

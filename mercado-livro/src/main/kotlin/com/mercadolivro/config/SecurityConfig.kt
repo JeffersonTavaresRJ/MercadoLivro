@@ -23,6 +23,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
+/*classe responsável por gerenciar a segurança das APIs*/
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +35,7 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
                      private val customEntryPoint: CustomAuthenticationEntryPoint
 ) {
     private val PUBLIC_POST_MATCHERS = arrayOf("/customer");
+    private val PUBLIC_GET_MATCHERS = arrayOf("/book/**");
     private val PUBLIC_ALL_MATCHERS = arrayOf("/v3/api-docs/**","/swagger-ui/**", "/javainuse-openapi/**");
     private val ADMIN_MATCHERS = arrayOf("/admin/**")
 
@@ -42,6 +44,7 @@ class SecurityConfig(private val customerRepository: CustomerRepository,
         http.cors { it.disable() }.csrf{it.disable()}
         http.authorizeRequests{
             it.requestMatchers(HttpMethod.POST, *PUBLIC_POST_MATCHERS).permitAll()
+                .requestMatchers(HttpMethod.GET, *PUBLIC_GET_MATCHERS).permitAll()
                 .requestMatchers(*PUBLIC_ALL_MATCHERS).permitAll()
                 .requestMatchers(*ADMIN_MATCHERS).hasAuthority(Role.ADMIN.description)
             .anyRequest()
