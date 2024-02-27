@@ -1,0 +1,2 @@
+1) No dropdown "MercadoLivroApplicationKt" que aparece no canto superior direito do IntelliJ, clicar na opção "Edit Configurations.."
+2) Na opção "MV options", digitar o valor: -Dspring.profiles.active=prd

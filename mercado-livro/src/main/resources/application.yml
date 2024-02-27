@@ -1,17 +1,16 @@
 spring:
+  profiles:
+    active: dev
   jpa:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost:3306/curso
-    username: root
-    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     default-property-inclusion: non_null
 flyway:
   url: jdbc:mysql://localhost:3306/mysql
-  schemas: curso
+  schemas: curso, curso_prd
   user: "root"
   password: "root"
 jwt:
