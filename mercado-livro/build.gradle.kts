@@ -42,11 +42,10 @@ dependencies {
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	implementation("io.jsonwebtoken:jjwt:0.12.5")
 
-
-
-
-
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	// https://mvnrepository.com/artifact/io.mockk/mockk
+	testImplementation("io.mockk:mockk:1.13.10")
+
 }
 
 tasks.withType<KotlinCompile> {

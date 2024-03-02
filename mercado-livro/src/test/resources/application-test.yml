@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: test
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/curso_test?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    default-property-inclusion: non_null
+flyway:
+  url: jdbc:mysql://localhost:3306/mysql
+  schemas: curso_test
+  user: "root"
+  password: "root"
+jwt:
+  secret: 79f15f3c-573e-4a0d-97e1-421cd7ff59cc
+  expiration: 3600000
+  algorithm: HmacSHA256
