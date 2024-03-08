@@ -38,14 +38,14 @@ class CustomerService(
 
     fun put(customer: CustomerModel){
         if(!customerRepository.existsById(customer.id!!)){
-            throw Exception();
+            throw NotFoundException(Errors.ML0002.message.format(customer.id), Errors.ML0002.code);
         }
         customerRepository.save(customer);
     }
 
     fun delete(id:Int){
         if(!customerRepository.existsById(id)){
-            throw Exception();
+            throw NotFoundException(Errors.ML0002.message.format(id), Errors.ML0002.code);
         }
 
         val customer = getById(id);
@@ -62,7 +62,7 @@ class CustomerService(
 
     fun inactivate(id: Int) {
         if(!customerRepository.existsById(id)){
-            throw Exception();
+            throw NotFoundException(Errors.ML0002.message.format(id), Errors.ML0002.code);
         }
 
         val customer = getById(id);

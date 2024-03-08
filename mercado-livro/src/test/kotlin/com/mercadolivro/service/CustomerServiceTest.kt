@@ -77,19 +77,87 @@ class CustomerServiceTest{
         verify(exactly = 1){customerRepository.findById(id)};
     }
 
+    @Test
+    fun `update Customer`(){
+        val id = Random().nextInt();
+        var fakeCustomer = buildCustomer(id=id);
+
+        every{customerRepository.existsById(id) } returns true;
+        every{customerRepository.save(fakeCustomer)}returns fakeCustomer;
+
+        customerService.put(fakeCustomer);
+
+        verify(exactly = 1){customerRepository.existsById(id)};
+        verify(exactly = 1){customerRepository.save(fakeCustomer)};
+    }
+
+    @Test
+    fun `update Customer NotFound`(){
+        val id = Random().nextInt();
+        var fakeCustomer = buildCustomer(id=id);
+
+        every{customerRepository.existsById(id) } returns false;
+        every{customerRepository.save(fakeCustomer)}returns fakeCustomer;
+
+        val error = assertThrows<NotFoundException>{customerService.put(fakeCustomer)};
+
+        assertEquals(Errors.ML0002.code, error.errorCode);
+        assertEquals("Cliente [${id}] não existe", error.message);
+
+        verify(exactly = 1){customerRepository.existsById(id)};
+        verify(exactly = 0){customerRepository.save(fakeCustomer)};
+    }
+
+    @Test
+    fun `delete Customer`(){
+        val id = Random().nextInt();
+        val fakeCustomer = buildCustomer(id=id);
+
+        every{customerRepository.existsById(id)} returns true;
+        every{customerRepository.findById(id)} returns Optional.of(fakeCustomer);
+        every{bookService.deleteByCustomer(fakeCustomer)}returns 0;
+        every{customerRepository.delete(fakeCustomer)} returns Unit;
+
+
+        customerService.delete(id);
+
+        verify(exactly = 1){customerRepository.existsById(id)};
+        verify(exactly = 1){customerRepository.delete(fakeCustomer)};
+    }
+
+    @Test
+    fun `delete Customer put status`(){
+        val id = Random().nextInt();
+        val fakeCustomer = buildCustomer(id=id, status = CustomerStatus.DELETADO);
+
+        every{customerRepository.existsById(id)} returns true;
+        every{customerRepository.findById(id)} returns Optional.of(fakeCustomer);
+        every{bookService.deleteByCustomer(fakeCustomer)}returns 1;
+        every{customerRepository.save(fakeCustomer)} returns fakeCustomer;
+
+
+        customerService.delete(id);
+
+        assertEquals(CustomerStatus.DELETADO, fakeCustomer.status);
+        verify(exactly = 2){customerRepository.existsById(id)};
+        verify(exactly = 1){customerRepository.save(fakeCustomer)};
+    }
+
     fun buildCustomer(id: Int?=null,
                       name: String="customer name",
                       email: String="${UUID.randomUUID()}@email.com",
+                      status: CustomerStatus?=CustomerStatus.ATIVO,
                       password: String="password"): CustomerModel{
         return CustomerModel(
             id=id, name= name,
             email=email,
             password=password,
-            status = CustomerStatus.ATIVO,
+            status = status,
             roles = setOf(Role.CUSTOMER)
         )
 
     }
+
 }
 
 
