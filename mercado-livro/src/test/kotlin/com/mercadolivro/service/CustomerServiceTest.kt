@@ -2,9 +2,8 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enuns.CustomerStatus
 import com.mercadolivro.enuns.Errors
-import com.mercadolivro.enuns.Role
+import com.mercadolivro.helper.buildCustomer
 import com.mercadolivro.exception.NotFoundException
-import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -143,20 +142,7 @@ class CustomerServiceTest{
         verify(exactly = 1){customerRepository.save(fakeCustomer)};
     }
 
-    fun buildCustomer(id: Int?=null,
-                      name: String="customer name",
-                      email: String="${UUID.randomUUID()}@email.com",
-                      status: CustomerStatus?=CustomerStatus.ATIVO,
-                      password: String="password"): CustomerModel{
-        return CustomerModel(
-            id=id, name= name,
-            email=email,
-            password=password,
-            status = status,
-            roles = setOf(Role.CUSTOMER)
-        )
 
-    }
 
 }
 
