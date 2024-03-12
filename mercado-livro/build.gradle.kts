@@ -46,6 +46,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.mockk/mockk
 	testImplementation("io.mockk:mockk:1.13.10")
 
+	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+	testImplementation("org.springframework.security:spring-security-test:6.2.2")
+
+
 }
 
 tasks.withType<KotlinCompile> {

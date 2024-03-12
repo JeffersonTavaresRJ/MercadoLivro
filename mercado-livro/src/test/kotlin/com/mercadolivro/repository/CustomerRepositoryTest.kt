@@ -15,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles
 /*como o repository é uma inteface, tem que sinalizar que os métodos das interfaces serão executadas*/
 @SpringBootTest
 
-/*annotation para ir no arquivo de configuração application-test.xml*/
+/*annotation para ir no arquivo de configuração application-test.xml e apontar para o banco de dados de teste*/
 @ActiveProfiles("test")
 
 @ExtendWith(MockKExtension::class)
