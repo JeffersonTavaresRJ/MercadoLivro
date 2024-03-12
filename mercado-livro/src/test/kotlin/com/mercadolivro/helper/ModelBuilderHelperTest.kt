@@ -27,7 +27,7 @@ fun buildPurchase(id: Int?=null,
                   books: MutableList<BookModel> = mutableListOf(),
                   customer: CustomerModel = buildCustomer(),
                   price: BigDecimal = BigDecimal.TEN,
-                  nfe: String = UUID.randomUUID().toString(),
+                  nfe: String? = UUID.randomUUID().toString(),
                   createdAt: LocalDateTime = LocalDateTime.now()): PurchaseModel{
         return PurchaseModel(
             id = id,
